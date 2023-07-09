@@ -5,7 +5,8 @@ const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(express.static('files'))
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -14,7 +15,7 @@ app.use((req, res, next) => {
 
 const port = process.env.PORT;
 
-app.use('/api', apiRoutes);
+app.use('/', apiRoutes);
 
 
 app.listen(port, () => {

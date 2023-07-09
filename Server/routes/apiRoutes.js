@@ -7,10 +7,15 @@ routes.get("/", (req, res) => {
     res.json({mssg:"Hello"});
 });
 
-routes.post("/", (req, res) => {
+routes.post("/postHtml", (req, res) => {
     const html = req.body.data;
-    res.json({msg: `Data recieved. ${html}`})
-    console.log(html);
+    const fileName = Date.now();
+    const path = `./files/${fileName}.html`;
+    const serverPath = `localhost:4000/${fileName}.html`
+    fs.writeFile(path, html ,(err) => {
+        if(err) throw err;
+        res.json({msg: `Data recieved. ${html}`,path: `${serverPath}`})
+    })
 });
 
 module.exports = routes;
