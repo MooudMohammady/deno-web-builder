@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
     "grapesjs": "^0.21.3",
     "grapesjs-preset-newsletter": "^1.0.2",
     "grapesjs-tailwind": "^1.0.10",

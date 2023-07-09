@@ -4,6 +4,8 @@ import GrapesJS from "grapesjs";
 import gjspresetnewsletter from "grapesjs-preset-newsletter";
 import grapesjstailwind from "grapesjs-tailwind";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import Traits from "../../components/Traits";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
@@ -15,16 +17,11 @@ const Editor = () => {
         fromElement: true,
         plugins: [gjspresetnewsletter, grapesjstailwind],
         storageManager: {
-          id: "editor", // Prefix identifier that will be used on parameters
-          type: "remote", // Type of the storage
-          autosave: true, // Store data automatically
-          autoload: true, // Autoload stored data on init
-          stepsBeforeSave: 1, // If autosave enabled, indicates how many changes are necessary before store method is triggered
-          urlStore: "http://localhost:8000/api/v1/template",
-          urlLoad: "http://localhost:8000/api/v1/template",
+          id: "editor",
         },
       });
       setEditor(e);
+      Traits(e);
       e.onReady(() => {
         const btnExp = document.createElement("button");
         btnExp.innerHTML = "Export";
@@ -34,7 +31,17 @@ const Editor = () => {
         e.on("run:export-template", () => {
           const el = e.Modal.getContentEl();
           el?.appendChild(btnExp);
-          btnExp.onclick = () => console.log(e.getHtml({ cleanId: true }));
+          btnExp.onclick = () => {
+            const res = axios.post("http://localhost:4000/postHtml", {
+              data: e.getHtml({ cleanId: true }),
+            });
+            const a = document.createElement("a");
+            a.style.display = "none";
+            a.download = `${Date.now()}.html`
+            a.href = res.data.href || "http://localhost:4000/files/1342412424.html";
+            document.body.appendChild(a);
+            a.click();
+          }
         });
       });
     }
