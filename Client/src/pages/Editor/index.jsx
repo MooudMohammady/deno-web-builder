@@ -9,7 +9,6 @@ import Traits from "../../components/Traits";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
-
   useEffect(() => {
     if (!editor) {
       const e = GrapesJS.init({
