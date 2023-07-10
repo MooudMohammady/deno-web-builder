@@ -6,9 +6,11 @@ import grapesjstailwind from "grapesjs-tailwind";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Traits from "../../components/Traits";
+import { useNavigate } from "react-router-dom";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     if (!editor) {
       const e = GrapesJS.init({
@@ -29,8 +31,8 @@ const Editor = () => {
         e.on("run:export-template", () => {
           const el = e.Modal.getContentEl();
           el?.appendChild(btnExp);
-          btnExp.onclick = () => {
-            const res = axios.post("http://localhost:4000/postHtml", {
+          btnExp.onclick = async() => {
+            await axios.post("http://localhost:8080/postHtml", {
               data: `
               <!DOCTYPE html>
               <html lang="en">
@@ -39,22 +41,18 @@ const Editor = () => {
                   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                   <title>Deno Web Builder | Denovin</title>
                   <script src="https://cdn.tailwindcss.com"></script>
-                  <link rel="stylesheet" href="./aos.css">
+                  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
                 </head>
                 ${e.getHtml({ cleanId: true })}
-                <script src="./aos.js"></script>
+                <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
                 <script>
                   AOS.init();
                 </script>
               </html>              
               `,
+            }).then((res)=>{
+              navigate(`/Downlaod/${res.data.path}`)
             });
-            const a = document.createElement("a");
-            a.style.display = "none";
-            a.download = `Deno-web-builder.zip`;
-            a.href = res.data.path;
-            document.body.appendChild(a);
-            a.click();
           };
         });
       });
