@@ -6,8 +6,8 @@ const apiRoutes = require('./routes/apiRoutes');
 const app = express();
 
 app.use(express.json());
-app.use(function (req, res, next) {
 
+app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
@@ -24,8 +24,8 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-app.use(express.static('files'))
 
+app.use(express.static('files'))
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
