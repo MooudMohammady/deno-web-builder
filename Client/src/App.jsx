@@ -8,7 +8,7 @@ import Downlaod from "./pages/Download";
 
 function App() {
   useEffect(() => {
-    AOS.init();
+    AOS.init({duration:1000});
   });
   return (
     <Routes>
