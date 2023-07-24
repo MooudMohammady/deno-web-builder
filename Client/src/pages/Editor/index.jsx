@@ -42,6 +42,9 @@ const Editor = () => {
                   <title>Deno Web Builder | Denovin</title>
                   <script src="https://cdn.tailwindcss.com"></script>
                   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                  <style>
+                    ${e.getCss()}
+                  </style>
                 </head>
                 ${e.getHtml({ cleanId: true })}
                 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
